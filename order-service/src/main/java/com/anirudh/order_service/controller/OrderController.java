@@ -20,6 +20,11 @@ public class OrderController {
 
     private final OrderService orderService;
 
+    @GetMapping("/helloOrders")
+    public String helloOrders(){
+        return "Hello, Order Service Here";
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderRequestDTO>> getAllOrders(){
         log.info("Fetching all orders via controller...");
@@ -33,6 +38,8 @@ public class OrderController {
         OrderRequestDTO order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
+
+
 
 
 
