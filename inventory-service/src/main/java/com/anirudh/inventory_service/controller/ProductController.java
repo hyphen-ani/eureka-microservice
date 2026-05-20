@@ -1,5 +1,7 @@
 package com.anirudh.inventory_service.controller;
 
+import com.anirudh.inventory_service.clients.OrdersFeignClient;
+import com.anirudh.inventory_service.dto.OrderRequestDTO;
 import com.anirudh.inventory_service.dto.ProductDTO;
 import com.anirudh.inventory_service.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -25,16 +24,20 @@ public class ProductController {
     private final ProductService productService;
     private final DiscoveryClient discoveryClient;
     private final RestClient restClient;
+    private final OrdersFeignClient ordersFeignClient;
 
     @GetMapping("/fetch-order")
     public String fetchFromOrderService(HttpServletRequest httpServletRequest){
-        ServiceInstance orderService = discoveryClient.getInstances("orders-service").getFirst();
-        log.info(httpServletRequest.getHeader("x-custom-header"));
+//        ServiceInstance orderService = discoveryClient.getInstances("orders-service").getFirst();
+//        log.info(httpServletRequest.getHeader("x-custom-header"));
+//
+//        return restClient.get()
+//                .uri(orderService.getUri() + "/orders/core/helloOrders")
+//                .retrieve()
+//                .body(String.class);
 
-        return restClient.get()
-                .uri(orderService.getUri() + "/orders/core/helloOrders")
-                .retrieve()
-                .body(String.class);
+        return ordersFeignClient.getHelloFromOrderService();
+
     }
 
     @GetMapping
@@ -47,5 +50,11 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id){
         ProductDTO product = productService.getProductById(id);
         return ResponseEntity.ok(product);
+    }
+
+    @PutMapping("reduce-stocks")
+    public ResponseEntity<Double> reduceStocks(@RequestBody OrderRequestDTO orderRequestDTO){
+        Double totalPrice = productService.reduceStocks(orderRequestDTO);
+        return ResponseEntity.ok(totalPrice);
     }
 }

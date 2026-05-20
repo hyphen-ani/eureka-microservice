@@ -1,42 +1,42 @@
--- Orders
-INSERT INTO orders (total_price, order_status) VALUES
-                                                   (1499.99, 'PENDING'),
-                                                   (3499.50, 'CONFIRMED'),
-                                                   (799.00, 'CANCELLED'),
-                                                   (12499.99, 'CONFIRMED'),
-                                                   (2599.49, 'PENDING'),
-                                                   (6999.00, 'CONFIRMED'),
-                                                   (1899.75, 'CONFIRMED'),
-                                                   (4599.99, 'PENDING'),
-                                                   (999.99, 'CONFIRMED'),
-                                                   (15499.00, 'PENDING');
-
-
--- Order Items
-INSERT INTO order_item (order_id, product_id, quantity) VALUES
-                                                            (1, 3, 2),
-                                                            (1, 15, 1),
-
-                                                            (2, 4, 1),
-                                                            (2, 20, 2),
-
-                                                            (3, 8, 1),
-
-                                                            (4, 9, 1),
-                                                            (4, 12, 1),
-                                                            (4, 18, 1),
-
-                                                            (5, 6, 1),
-
-                                                            (6, 10, 2),
-                                                            (6, 14, 1),
-
-                                                            (7, 2, 1),
-
-                                                            (8, 25, 2),
-                                                            (8, 30, 1),
-
-                                                            (9, 40, 3),
-
-                                                            (10, 16, 1),
-                                                            (10, 27, 1);
+-- -- Orders
+-- INSERT INTO orders (total_price, order_status) VALUES
+--                                                    (1499.99, 'PENDING'),
+--                                                    (3499.50, 'CONFIRMED'),
+--                                                    (799.00, 'CANCELLED'),
+--                                                    (12499.99, 'CONFIRMED'),
+--                                                    (2599.49, 'PENDING'),
+--                                                    (6999.00, 'CONFIRMED'),
+--                                                    (1899.75, 'CONFIRMED'),
+--                                                    (4599.99, 'PENDING'),
+--                                                    (999.99, 'CONFIRMED'),
+--                                                    (15499.00, 'PENDING');
+--
+--
+-- -- Order Items
+-- INSERT INTO order_item (order_id, product_id, quantity) VALUES
+--                                                             (1, 3, 2),
+--                                                             (1, 15, 1),
+--
+--                                                             (2, 4, 1),
+--                                                             (2, 20, 2),
+--
+--                                                             (3, 8, 1),
+--
+--                                                             (4, 9, 1),
+--                                                             (4, 12, 1),
+--                                                             (4, 18, 1),
+--
+--                                                             (5, 6, 1),
+--
+--                                                             (6, 10, 2),
+--                                                             (6, 14, 1),
+--
+--                                                             (7, 2, 1),
+--
+--                                                             (8, 25, 2),
+--                                                             (8, 30, 1),
+--
+--                                                             (9, 40, 3),
+--
+--                                                             (10, 16, 1),
+--                                                             (10, 27, 1);

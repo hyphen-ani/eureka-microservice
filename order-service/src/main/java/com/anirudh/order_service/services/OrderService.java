@@ -1,6 +1,9 @@
 package com.anirudh.order_service.services;
 
+import com.anirudh.order_service.clients.InventoryOpenFeignClient;
 import com.anirudh.order_service.dto.OrderRequestDTO;
+import com.anirudh.order_service.entity.OrderItem;
+import com.anirudh.order_service.entity.OrderStatus;
 import com.anirudh.order_service.entity.Orders;
 import com.anirudh.order_service.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
+    private final InventoryOpenFeignClient inventoryOpenFeignClient;
 
 
     public List<OrderRequestDTO> getAllOrders(){
@@ -36,6 +40,21 @@ public class OrderService {
     }
 
 
+    public OrderRequestDTO createOrder(OrderRequestDTO orderRequestDTO) {
+        Double totalPrice = inventoryOpenFeignClient.reduceStocks(orderRequestDTO);
 
+        Orders newOrder = modelMapper.map(
+                orderRequestDTO, Orders.class
+        );
 
+        for(OrderItem orderItem: newOrder.getItems()){
+            orderItem.setOrders(newOrder);
+        }
+
+        newOrder.setTotalPrice(totalPrice);
+        newOrder.setOrderStatus(OrderStatus.CONFIRMED);
+
+        Orders savedOrder = orderRepository.save(newOrder);
+        return modelMapper.map(savedOrder, OrderRequestDTO.class);
+    }
 }
