@@ -1,17 +1,3 @@
-### API-GATEWAY CONFIG
-#spring:
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: order-service
-#          uri: lb://ORDER-SERVICE
-#          predicates:
-#            - Path=/orders/**
-#        - id:  inventory-service
-#          uri: lb://INVENTORY-SERVICE
-#          predicates:
-#              - Path=/inventory/**
-
 spring:
   cloud:
     gateway:
@@ -21,11 +7,16 @@ spring:
             - id: orders-service
               uri: lb://ORDERS-SERVICE
               predicates:
-                - Path=/orders/**
+                - Path=/api/v1/orders/**
+              filters:
+                - StripPrefix=2
             - id: inventory-service
               uri: lb://INVENTORY-SERVICE
               predicates:
-                - Path=/inventory/**
+                - Path=/api/v1/inventory/**
+              filters:
+                - StripPrefix=2
+                - AddRequestHeader=X-Custom-Header, Inventory
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
