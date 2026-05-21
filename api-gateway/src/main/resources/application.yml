@@ -2,7 +2,7 @@ spring:
   cloud:
     gateway:
       server:
-        webmvc:
+        webflux:
           routes:
             - id: orders-service
               uri: lb://ORDERS-SERVICE
@@ -10,6 +10,7 @@ spring:
                 - Path=/api/v1/orders/**
               filters:
                 - StripPrefix=2
+                - name: LoggingOrderFilters
             - id: inventory-service
               uri: lb://INVENTORY-SERVICE
               predicates:
