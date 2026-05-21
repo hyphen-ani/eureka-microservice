@@ -1,0 +1,38 @@
+resilience4j:
+  retry:
+    instances:
+      inventoryRetry:
+        max-attempts: 10
+        wait-duration: 100ms
+
+  ratelimiter:
+    instances:
+      inventoryRateLimiter:
+        limit-for-period: 100
+        limit-refresh-period: 1s
+        timeout-duration: 10ms
+
+  circuitbreaker:
+    instances:
+      inventoryCircuitBreaker:
+        register-health-indicator: true # EXPOSE CIRCUIT BREAKER HEALTH VIA THE ACTUATOR
+        sliding-window-size: 10 # SIZE OF THE SLIDING WINDOW FOR CALL RECORDING
+        sliding-window-type: COUNT_BASED # USE COUNT_BASED SLIDING WINDOW
+        minimum-number-of-calls: 10 # MIN NUMBER OF CALLS BEFORE CALCULATING FAILURE RATE
+        failure-rate-threshold: 50 # IF 50% (5 OUT OF 10) CALLS FAIL. THE CIRCUIT GOES TO OPEN STATE
+        wait-duration-in-open-state: # TIME THE CIRCUIT STAYS OPEN BEFORE MOVING TO HALF_OPEN
+          seconds: 20
+        permitted-number-of-calls-in-half-open-state: 3 # NUMBER OF TEST CALLS IN HALF_OPEN STATE
+        event-consumer-buffer-size: 10 # BUFFER SIZE FOR EVENT LOGS
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
