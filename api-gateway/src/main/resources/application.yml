@@ -1,27 +1,6 @@
 spring:
-  cloud:
-    gateway:
-      server:
-        webflux:
-          routes:
-            - id: orders-service
-              uri: lb://ORDERS-SERVICE
-              predicates:
-                - Path=/api/v1/orders/**
-              filters:
-                - StripPrefix=2
-                - name: LoggingOrderFilters
-                - name: Authentication
-                  args:
-                    isEnabled: false
-            - id: inventory-service
-              uri: lb://INVENTORY-SERVICE
-              predicates:
-                - Path=/api/v1/inventory/**
-              filters:
-                - StripPrefix=2
-                - AddRequestHeader=X-Custom-Header, Inventory
-                - name: Authentication
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
+  application:
+    name: api-gateway
+
+  config:
+    import: configserver:http://localhost:8888
