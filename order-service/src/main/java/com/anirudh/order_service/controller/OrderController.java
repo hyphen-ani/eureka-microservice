@@ -6,6 +6,8 @@ import com.anirudh.order_service.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.query.Order;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +17,18 @@ import java.util.List;
 @RequestMapping("/core")
 @RequiredArgsConstructor
 @Slf4j
+@RefreshScope
 public class OrderController {
 
     private final OrderService orderService;
 
+    @Value("${my.variable}")
+    private String variable;
+
 
     @GetMapping("/helloOrders")
-    public String helloOrders(@RequestHeader("X-User-Id") Long userId){
-        return "Hello, Order Service Here, User Id is" + userId;
+    public String helloOrders(){
+        return "Hello, Order Service Here, Variable" + variable;
     }
 
     @GetMapping
